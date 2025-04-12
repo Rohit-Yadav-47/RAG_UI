@@ -10,7 +10,7 @@ const getEnvVariable = (key: string): string | undefined => {
 };
 
 const client = new Groq({
-  apiKey: getEnvVariable('GROQ_API_KEY') || '',
+  apiKey: getEnvVariable('GROQ_API_KEY') || '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',
   dangerouslyAllowBrowser: true, // Add this to allow browser usage
 });
 
