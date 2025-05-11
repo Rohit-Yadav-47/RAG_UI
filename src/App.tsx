@@ -7,34 +7,43 @@ import Settings from './pages/Settings';
 import History from './pages/History';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import KnowledgeBase from './pages/KnowledgeBase';
+import Embeddings from './pages/Embeddings';
+import Analytics from './pages/Analytics';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { DocumentProvider } from './context/DocumentContext';
 
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={<Login />} />
-            
-            {/* Protected routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="chat" element={<Chat />} />
-                <Route path="documents" element={<Documents />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="history" element={<History />} />
+        <DocumentProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/login" element={<Login />} />
+              
+              {/* Protected routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Home />} />
+                  <Route path="chat" element={<Chat />} />
+                  <Route path="documents" element={<Documents />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="history" element={<History />} />
+                  <Route path="knowledge-base" element={<KnowledgeBase />} />
+                  <Route path="embeddings" element={<Embeddings />} />
+                  <Route path="analytics" element={<Analytics />} />
+                </Route>
               </Route>
-            </Route>
-            
-            {/* Fallback route */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
+              
+              {/* Fallback route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </DocumentProvider>
       </AuthProvider>
     </ThemeProvider>
   );

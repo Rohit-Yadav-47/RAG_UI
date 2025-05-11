@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Lock, Eye, EyeOff, Mail, ArrowRight, Github, Twitter, Linkedin, AlertCircle, CheckCircle2, Facebook, Chrome } from 'lucide-react';
+import { User, Lock, Eye, EyeOff, Mail, ArrowRight, Github, Twitter, AlertCircle, CheckCircle2, Facebook, Chrome, BarChart, PieChart } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const Login = () => {
@@ -103,14 +103,34 @@ const Login = () => {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center p-4 transition-colors duration-300 ${theme === 'dark' ? 'bg-black text-gray-100' : 'bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800'}`}>
-      <div className="w-full max-w-md">
+    <div className={`min-h-screen flex items-center justify-center p-4 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800'}`}>
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className={`absolute top-0 left-0 w-full h-full ${theme === 'dark' ? 'opacity-10' : 'opacity-20'}`} style={{ backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(75, 85, 99, 0.8) 0%, transparent 25%), radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.8) 0%, transparent 25%)' }}></div>
+        <div className={`absolute -top-40 -left-40 w-80 h-80 rounded-full ${theme === 'dark' ? 'bg-blue-700' : 'bg-blue-500'} opacity-10 blur-3xl`}></div>
+        <div className={`absolute -bottom-40 -right-40 w-80 h-80 rounded-full ${theme === 'dark' ? 'bg-indigo-700' : 'bg-indigo-500'} opacity-10 blur-3xl`}></div>
+        
+        {/* Decorative Data Visualization Elements */}
+        <div className="absolute top-20 right-20 opacity-20">
+          <div className="h-32 w-32 flex flex-col items-center">
+            <PieChart className={`h-full w-full ${theme === 'dark' ? 'text-blue-400' : 'text-blue-500'}`} strokeWidth={1} />
+          </div>
+        </div>
+        <div className="absolute bottom-20 left-20 opacity-20">
+          <div className="h-32 w-32 flex flex-col items-center">
+            <BarChart className={`h-full w-full ${theme === 'dark' ? 'text-indigo-400' : 'text-indigo-500'}`} strokeWidth={1} />
+          </div>
+        </div>
+      </div>
+      <div className="w-full max-w-md relative z-10 backdrop-blur-sm">
         {/* Logo and App Name */}
         <div className="text-center mb-8">
-          <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${theme === 'dark' ? 'bg-primary-700' : 'bg-primary-600'} text-white mb-4 shadow-lg`}>
+          <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${theme === 'dark' ? 'bg-blue-700 bg-opacity-80' : 'bg-blue-600'} text-white mb-4 shadow-lg`}>
             <User className="w-8 h-8" />
           </div>
           <h1 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>RAG Assistant</h1>
+          <p className={`mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Your AI-powered research companion</p>
           <p className={`mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Your intelligent document companion</p>
         </div>
 
@@ -197,8 +217,7 @@ const Login = () => {
                 </div>
                 <input
                   id="password"
-                  type={showPassword ? "text" : "password"}
-                  required
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={`pl-10 w-full py-2.5 px-4 rounded-lg focus:ring-2 focus:ring-primary-500 transition-colors ${
@@ -206,19 +225,8 @@ const Login = () => {
                       ? 'bg-gray-800 border-gray-700 text-white focus:border-primary-600' 
                       : 'border border-gray-300 text-gray-900 focus:border-primary-500'
                   }`}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showPassword ? (
-                    <EyeOff className={`h-5 w-5 ${theme === 'dark' ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`} />
-                  ) : (
-                    <Eye className={`h-5 w-5 ${theme === 'dark' ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`} />
-                  )}
-                </button>
               </div>
             </div>
 
@@ -233,9 +241,11 @@ const Login = () => {
                     />
                   ))}
                 </div>
-                <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                  Password strength: <span className="font-medium">{getStrengthText()}</span>
-                </p>
+                <div className={`relative ${theme === 'dark' ? 'bg-gray-800/90 backdrop-blur-sm' : 'bg-white'} shadow-xl rounded-2xl overflow-hidden border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                    Password strength: <span className="font-medium">{getStrengthText()}</span>
+                  </p>
+                </div>
               </div>
             )}
 
@@ -372,8 +382,8 @@ const Login = () => {
 
         {/* Footer */}
         <div className={`mt-8 text-center text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-gray-600'}`}>
-          <p>© 2023 RAG Assistant. All rights reserved.</p>
-          <div className="mt-2 space-x-4">
+          <p>© 2025 RAG Assistant. All rights reserved.</p>
+            <div className="mt-2 space-x-4">
             <a href="#" className={`${theme === 'dark' ? 'text-gray-500 hover:text-gray-300' : 'text-gray-600 hover:text-primary-600'} transition-colors`}>
               Privacy Policy
             </a>
