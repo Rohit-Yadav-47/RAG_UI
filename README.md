@@ -1,5 +1,7 @@
 # RAG Assistant
 
+https://rag-ui-eight.vercel.app/
+
 A modern React-based chat application powered by Groq AI that enables intelligent document analysis and conversation.
 
 ## Features
