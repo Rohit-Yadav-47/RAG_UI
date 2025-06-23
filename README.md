@@ -1,5 +1,7 @@
 # RAG Assistant
 
+The backend code for the context fusion RAG system is not public as i have publised a paper on it. so share the UI code with GROQ llm 
+
 https://rag-ui-eight.vercel.app/
 
 A modern React-based chat application powered by Groq AI that enables intelligent document analysis and conversation.
