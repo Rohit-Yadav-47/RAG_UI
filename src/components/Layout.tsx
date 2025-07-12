@@ -12,6 +12,7 @@ export default function Layout() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   
   // Dummy notifications
   const notifications = [

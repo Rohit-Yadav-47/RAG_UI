@@ -1,12 +1,16 @@
-import { BarChart3, FileText, Clock, Users, ArrowUpRight, ChevronRight } from 'lucide-react';
+import { BarChart3, FileText, Clock, Users, ArrowUpRight, ChevronRight, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useState } from 'react';
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  
+  // Export state
+  const [isExporting, setIsExporting] = useState(false);
   
   // Dummy data for the dashboard
   const stats = [
@@ -32,8 +36,44 @@ const Dashboard = () => {
     <div className={`p-6 max-w-7xl mx-auto w-full ${isDark ? 'bg-dark-300 text-gray-100' : ''}`}>
       {/* Welcome section */}
       <div className="mb-8">
-        <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>Welcome back, {user?.name || 'User'}!</h1>
-        <p className={`mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Here's what's happening with your documents and conversations.</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>Welcome back, {user?.name || 'User'}!</h1>
+            <p className={`mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Here's what's happening with your documents and conversations.</p>
+          </div>
+          <button
+            onClick={() => {
+              setIsExporting(true);
+              const dashboardData = {
+                user: user?.name || 'User',
+                date: new Date().toLocaleDateString(),
+                stats: stats.map(stat => ({ name: stat.name, value: stat.value })),
+                recentDocuments: recentDocuments.map(doc => ({ title: doc.title, updated: doc.updated })),
+                recentChats: recentChats.map(chat => ({ title: chat.title, messages: chat.messages }))
+              };
+              
+              const blob = new Blob([JSON.stringify(dashboardData, null, 2)], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `dashboard-${new Date().toISOString().split('T')[0]}.json`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              setIsExporting(false);
+            }}
+            disabled={isExporting}
+            className={`flex items-center px-3 py-2 rounded-lg text-sm transition-colors ${
+              isDark 
+                ? 'bg-dark-200 hover:bg-dark-100 text-gray-300' 
+                : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+            } ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            {isExporting ? 'Exporting...' : 'Export Dashboard'}
+          </button>
+        </div>
       </div>
       
       {/* Stats grid */}

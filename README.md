@@ -16,6 +16,7 @@ A modern React-based chat application powered by Groq AI that enables intelligen
 - 📊 Chat history and analytics
 - 🔍 Advanced search capabilities
 - ⚡ Real-time responses
+- 📤 Dashboard export functionality
 
 ## Tech Stack
 
@@ -101,6 +102,12 @@ src/
 - Theme preferences
 - Privacy controls
 - Data retention settings
+
+### Dashboard Export
+- Export dashboard data as JSON
+- Includes user stats, recent documents, and conversations
+- Automatic file naming with current date
+- One-click download functionality
 
 ## Contributing
 
