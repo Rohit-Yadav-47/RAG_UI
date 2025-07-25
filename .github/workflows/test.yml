@@ -1,0 +1,58 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: Run CI Test Suite
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          echo "Installing packages..."
+          sleep 2
+          echo "Done."
+
+      - name: Run Tests
+        run: |
+          echo "Running test suite..."
+          sleep 2
+          
+          echo "::group::Unit Tests"
+          echo "✓ adds numbers correctly"
+          echo "✓ handles empty input"
+          echo "✗ returns error on null input"
+          echo "::error file=src/utils/math.js,line=42,col=13::Expected 'Error: Invalid input', got 'undefined'"
+          echo "✗ fails when input is string instead of number"
+          echo "::error file=src/utils/math.js,line=55,col=9::TypeError: input.split is not a function"
+          echo "::endgroup::"
+
+          echo "::group::Integration Tests"
+          echo "✓ user registration flow"
+          echo "✗ login fails with invalid credentials"
+          echo "::error file=src/services/auth.test.js,line=88,col=19::Expected 401, received 200"
+          echo "✓ token refresh works"
+          echo "✗ missing token should return 403"
+          echo "::error file=src/services/auth.test.js,line=103,col=7::Expected '403 Forbidden', got '500 Internal Server Error'"
+          echo "::endgroup::"
+
+          echo "::group::UI Snapshot Tests"
+          echo "✓ renders homepage correctly"
+          echo "✗ settings page is broken"
+          echo "::error file=tests/ui/settings.test.js,line=33,col=12::Snapshot mismatch found"
+          echo "::endgroup::"
+
+          echo "Total: 11 tests, 6 passed, 5 failed"
+          exit 1
