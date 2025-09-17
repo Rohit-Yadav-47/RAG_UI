@@ -434,24 +434,44 @@ export default function Chat() {
         {/* Suggestions */}
         {showSuggestions && messages.length <= 2 && (
           <div className="px-4 pb-4">
-            <div className={`rounded-xl p-4 ${
-              isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200 shadow-sm'
+            <div className={`rounded-2xl p-6 border ${
+              isDark 
+                ? 'bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700/50 backdrop-blur-sm' 
+                : 'bg-gradient-to-br from-white to-gray-50/50 border-gray-200 shadow-lg'
             }`}>
-              <h3 className={`text-sm font-medium mb-3 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
-                Try asking
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className={`p-2 rounded-lg ${
+                  isDark ? 'bg-blue-900/30' : 'bg-blue-100'
+                }`}>
+                  <FileText className={`h-4 w-4 ${
+                    isDark ? 'text-blue-400' : 'text-blue-600'
+                  }`} />
+                </div>
+                <h3 className={`text-sm font-semibold ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
+                  ✨ Try asking
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className={`text-left p-3 rounded-lg text-sm transition-colors ${
+                    className={`group text-left p-4 rounded-xl text-sm transition-all duration-200 border ${
                       isDark 
-                        ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
-                        : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                    }`}
+                        ? 'bg-gray-700/50 hover:bg-gray-600/50 text-gray-200 border-gray-600/50 hover:border-gray-500' 
+                        : 'bg-white hover:bg-blue-50 text-gray-700 border-gray-200 hover:border-blue-200 shadow-sm hover:shadow-md'
+                    } hover:-translate-y-0.5`}
                   >
-                    {suggestion}
+                    <div className="flex items-start space-x-2">
+                      <div className={`p-1 rounded-md mt-0.5 ${
+                        isDark ? 'bg-blue-900/30' : 'bg-blue-100'
+                      } group-hover:scale-110 transition-transform duration-200`}>
+                        <FileText className={`h-3 w-3 ${
+                          isDark ? 'text-blue-400' : 'text-blue-600'
+                        }`} />
+                      </div>
+                      <span className="flex-1">{suggestion}</span>
+                    </div>
                   </button>
                 ))}
               </div>
@@ -462,53 +482,62 @@ export default function Chat() {
         {/* Input area */}
         <div className="p-4">
           <form onSubmit={handleSubmit} className="relative">
-            <div className={`flex flex-col rounded-xl shadow-sm ${
+            <div className={`flex flex-col rounded-2xl border transition-all duration-200 ${
               isDark 
-                ? 'bg-gray-800 border border-gray-700' 
-                : 'bg-white border border-gray-200'
-            }`}>
+                ? 'bg-gray-800/50 border-gray-700 backdrop-blur-sm shadow-xl' 
+                : 'bg-white border-gray-200 shadow-lg hover:shadow-xl'
+            } ${input.trim() ? 'ring-2 ring-blue-500/20' : ''}`}>
               <div className="relative">
                 <textarea
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Type a message..."
+                  placeholder="Type your message here... ✨"
                   rows={1}
-                  className={`w-full px-4 pt-3 pb-2 rounded-t-xl resize-none overflow-hidden focus:outline-none focus:ring-0 ${
+                  className={`w-full px-6 pt-4 pb-3 rounded-t-2xl resize-none overflow-hidden focus:outline-none text-base ${
                     isDark 
-                      ? 'bg-gray-800 text-white placeholder-gray-400 border-gray-700' 
-                      : 'bg-white text-gray-900 placeholder-gray-400 border-gray-200'
+                      ? 'bg-transparent text-white placeholder-gray-400' 
+                      : 'bg-transparent text-gray-900 placeholder-gray-500'
                   }`}
                   style={{ maxHeight: '200px' }}
                 />
               </div>
               
-              <div className={`flex items-center justify-between px-2 py-2 ${
-                isDark ? 'border-t border-gray-700' : 'border-t border-gray-200'
+              <div className={`flex items-center justify-between px-4 py-3 ${
+                isDark ? 'border-t border-gray-700/50' : 'border-t border-gray-200'
               }`}>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <button 
                     type="button" 
-                    className={`p-1.5 rounded-md ${
-                      isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'
-                    }`}
+                    className={`p-2 rounded-xl transition-all duration-200 ${
+                      isDark 
+                        ? 'hover:bg-gray-700/50 text-gray-400 hover:text-gray-300' 
+                        : 'hover:bg-gray-100 text-gray-500 hover:text-gray-600'
+                    } hover:scale-110`}
+                    title="Attach file"
                   >
                     <Paperclip className="h-5 w-5" />
                   </button>
                   <button 
                     type="button" 
-                    className={`p-1.5 rounded-md ${
-                      isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'
-                    }`}
+                    className={`p-2 rounded-xl transition-all duration-200 ${
+                      isDark 
+                        ? 'hover:bg-gray-700/50 text-gray-400 hover:text-gray-300' 
+                        : 'hover:bg-gray-100 text-gray-500 hover:text-gray-600'
+                    } hover:scale-110`}
+                    title="Voice message"
                   >
                     <Mic className="h-5 w-5" />
                   </button>
                   <button 
                     type="button" 
-                    className={`p-1.5 rounded-md ${
-                      isDark ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'
-                    }`}
+                    className={`p-2 rounded-xl transition-all duration-200 ${
+                      isDark 
+                        ? 'hover:bg-gray-700/50 text-gray-400 hover:text-gray-300' 
+                        : 'hover:bg-gray-100 text-gray-500 hover:text-gray-600'
+                    } hover:scale-110`}
+                    title="Add emoji"
                   >
                     <Smile className="h-5 w-5" />
                   </button>
@@ -518,17 +547,22 @@ export default function Chat() {
                   <button 
                     type="submit"
                     disabled={!input.trim() || isLoading}
-                    className={`flex items-center justify-center px-4 py-2 rounded-lg ${
+                    className={`flex items-center justify-center px-6 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                       !input.trim() || isLoading
-                        ? isDark ? 'bg-gray-700 text-gray-400 cursor-not-allowed' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-600 text-white hover:bg-blue-700'
+                        ? isDark 
+                          ? 'bg-gray-700/50 text-gray-500 cursor-not-allowed' 
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl hover:scale-105'
                     }`}
                   >
                     {isLoading ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <div className="flex items-center space-x-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Sending...</span>
+                      </div>
                     ) : (
-                      <div className="flex items-center">
-                        <Send className="h-4 w-4 mr-1.5" />
+                      <div className="flex items-center space-x-2">
+                        <Send className="h-4 w-4" />
                         <span>Send</span>
                       </div>
                     )}
