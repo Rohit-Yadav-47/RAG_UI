@@ -1,4 +1,4 @@
-import { BarChart3, FileText, Clock, Users, ArrowUpRight, ChevronRight, TrendingUp, Zap } from 'lucide-react';
+import { BarChart3, FileText, Clock, Users, ChevronRight, TrendingUp, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
